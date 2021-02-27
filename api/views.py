@@ -1,4 +1,4 @@
-from django.db import connection, DataError, ProgrammingError
+from django.db import connection, DataError, IntegrityError, ProgrammingError
 from django.http import HttpResponse
 from psycopg2.errors import UndefinedColumn
 from rest_framework.decorators import api_view
@@ -27,4 +27,22 @@ def cats_list(request):
             raise BadRequest(str(exc), 'data_error')
         cats = fetch_all_cats(cursor)
     serializer = CatSerializer(cats, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+def cat(request):
+    if request.method == 'GET':
+        return Response()
+    serializer = CatSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    with connection.cursor() as cursor:
+        try:
+            cursor.execute(
+                'INSERT INTO cats VALUES'
+                '(%(name)s, %(color)s, %(tail_length)s, %(whiskers_length)s)',
+                serializer.validated_data,
+            )
+        except IntegrityError as exc:
+            raise BadRequest(str(exc), 'integrity_error')
     return Response(serializer.data)
