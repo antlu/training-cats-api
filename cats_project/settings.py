@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'api.apps.ApiConfig',
 ]
 
@@ -76,8 +77,12 @@ WSGI_APPLICATION = 'cats_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'wg_forge_db',
+        'USER': 'wg_forge',
+        'PASSWORD': '42a',
+        'HOST': 'localhost',
+        'PORT': '5433',
     }
 }
 
