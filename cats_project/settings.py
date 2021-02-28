@@ -124,3 +124,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# API
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_RATES': {
+        'all': '600/minute',
+    }
+}

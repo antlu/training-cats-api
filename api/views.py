@@ -1,12 +1,13 @@
 from django.db import connection, DataError, IntegrityError, ProgrammingError
 from django.http import HttpResponse
 from psycopg2.errors import UndefinedColumn
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
 
 from api.exceptions import BadRequest
-from api.serializers import CatSerializer
 from api.functions import build_query, fetch_all_cats, get_valid_params
+from api.serializers import CatSerializer
+from api.throttling import AllUsersRateThrottle
 
 
 def ping(request):
@@ -14,6 +15,7 @@ def ping(request):
 
 
 @api_view(['GET', 'POST'])
+@throttle_classes([AllUsersRateThrottle])
 def cats_list(request):
     if request.method == 'GET':
         params = get_valid_params(request.query_params)
