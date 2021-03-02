@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from psycopg2.errors import UndefinedColumn
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.response import Response
+from rest_framework import status
 
 from api.exceptions import BadRequest
 from api.functions import build_query, fetch_all_cats, get_valid_params
@@ -43,4 +44,4 @@ def cats_list(request):
             )
         except IntegrityError as exc:
             raise BadRequest(str(exc), 'integrity_error')
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)

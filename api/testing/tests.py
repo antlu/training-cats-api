@@ -65,3 +65,46 @@ class Tests(APITestCase):
     def test_negative_offset(self):
         self.client.get(URL, {'offset': -10})
         self.assertRaisesMessage(BadRequest, 'negative')
+
+    def test_cat_addition(self):
+        response = self.client.post(
+            URL, dict(
+                name='Pushok',
+                color='white',
+                whiskers_length=10,
+                tail_length=30,
+            ),
+        )
+        self.assertContains(
+            response, 'Pushok', status_code=status.HTTP_201_CREATED,
+        )
+
+    def test_incomplete_addition(self):
+        self.client.post(URL, dict())
+        self.assertRaisesMessage(BadRequest, 'required')
+
+    def test_existing_cat_addition(self):
+        self.client.post(
+            URL, dict(name='Nemo',
+                color='gray',
+                whiskers_length=8,
+                tail_length=25,
+            ),
+        )
+        self.assertRaisesMessage(BadRequest, 'duplicate')
+
+    def test_addition_with_bad_values(self):
+        self.client.post(
+            URL, dict(name=1,
+                color='unknown',
+                whiskers_length=-10,
+                tail_length='string',
+            ),
+        )
+        self.assertRaises(BadRequest)
+
+    def test_addition_with_wrong_format(self):
+        response = self.client.post(
+            URL, 'string', content_type='application/json',
+        )
+        self.assertRaises(BadRequest)
