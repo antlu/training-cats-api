@@ -5,5 +5,5 @@ from api import views
 
 urlpatterns = [
     path('ping/', views.ping),
-    path('cats/', views.cats_list),
+    path('cats/', views.cats_list, name='cats_list'),
 ]
