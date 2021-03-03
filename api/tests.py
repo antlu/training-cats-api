@@ -13,7 +13,7 @@ class Tests(APITestCase):
     @classmethod
     def setUpTestData(cls):
         with connection.cursor() as cursor:
-            with open('api/testing/wg_forge_init.sql') as sql:
+            with open('postgres/db_init.sql') as sql:
                 cursor.execute(sql.read())
 
     def test_data_return(self):

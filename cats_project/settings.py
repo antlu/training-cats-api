@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'cats_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wg_forge_db',
-        'USER': 'wg_forge',
-        'PASSWORD': '42a',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'NAME': 'cats_db',
+        'USER': 'dev',
+        'PASSWORD': 'password',
+        'HOST': 'postgres',
+        'PORT': '5432',
     }
 }
 
