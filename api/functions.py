@@ -1,9 +1,9 @@
 from collections import namedtuple
 
-from psycopg2.sql import Identifier, SQL
+from psycopg2.sql import SQL, Identifier
 
 
-def fetch_all_cats(cursor):
+def fetch_cats(cursor):
     columns = [col[0] for col in cursor.description]
     Cat = namedtuple('Cat', columns)
     return [Cat(*row) for row in cursor.fetchall()]

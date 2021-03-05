@@ -54,8 +54,7 @@ class Tests(APITestCase):
         self.assertEqual(response.data[0]['name'], 'Amur')
 
     def test_large_offset(self):
-        response = self.client.get(URL, {'offset': 30},
-        )
+        response = self.client.get(URL, {'offset': 30})
         self.assertEqual(response.data, [])
 
     def test_invalid_offset(self):
@@ -85,7 +84,8 @@ class Tests(APITestCase):
 
     def test_existing_cat_addition(self):
         self.client.post(
-            URL, dict(name='Nemo',
+            URL, dict(
+                name='Nemo',
                 color='gray',
                 whiskers_length=8,
                 tail_length=25,
@@ -95,7 +95,8 @@ class Tests(APITestCase):
 
     def test_addition_with_bad_values(self):
         self.client.post(
-            URL, dict(name=1,
+            URL, dict(
+                name=1,
                 color='unknown',
                 whiskers_length=-10,
                 tail_length='string',
@@ -104,7 +105,7 @@ class Tests(APITestCase):
         self.assertRaises(BadRequest)
 
     def test_addition_with_wrong_format(self):
-        response = self.client.post(
+        self.client.post(
             URL, 'string', content_type='application/json',
         )
         self.assertRaises(BadRequest)

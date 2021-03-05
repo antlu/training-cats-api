@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from drf_yasg.views import get_schema_view
+
+from api.openapi import info
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('api.urls')),
+    path('redoc/', get_schema_view(info).with_ui('redoc')),
 ]

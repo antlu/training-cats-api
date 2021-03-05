@@ -12,6 +12,17 @@ class CatSerializer(serializers.Serializer):
     tail_length = serializers.IntegerField(min_value=0)
     whiskers_length = serializers.IntegerField(min_value=0)
 
+    class Meta:
+
+        swagger_schema_fields = {
+            'example': {
+                'name': 'Pushok',
+                'color': 'white',
+                'tail_length': 30,
+                'whiskers_length': 10,
+            },
+        }
+
     def validate_name(self, value):
         if value.isnumeric():
             raise serializers.ValidationError("Name must start with a letter.")
